@@ -1,17 +1,16 @@
 package com.omkar.cs106.project.maze;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Player {
 	private Integer posX;
 	private Integer posY;
 	private Boolean win;
+	private char rep;
 	
 	public Player() {
-		this.posX = 10;
-		this.posY = 1;
-		this.win = false;
+		this.posX = 0;
+		this.posY = 12;
+		this.win = null;
+		this.rep = 'O';
 	}
 
 	public Integer getPosX() {
@@ -38,38 +37,29 @@ public class Player {
 		this.win = win;
 	}
 	
+	public char getRep() {
+		return rep;
+	}
+	
+	//before moving player, check if player can move to the position or not
 	public Integer moveLeft(Maze maze) {
-		updateString(maze, ' ');
 		this.posX = this.posX - 1;
-		updateString(maze, 'O');
 		return this.posX;
 	}
 	
 	public Integer moveRight(Maze maze) {
-		updateString(maze, ' ');
 		this.posX = this.posX + 1;
-		updateString(maze, 'O');
 		return this.posX;
 	}
 	
 	public Integer moveUp(Maze maze) {
-		updateString(maze, ' ');
 		this.posY = this.posY - 1;
-		updateString(maze, 'O');
 		return this.posY;
 	}
 	
 	public Integer moveDown(Maze maze) {
-		updateString(maze, ' ');
 		this.posY = this.posY + 1;
-		updateString(maze, 'O');
 		return this.posY;
 	}
-	
-	public void updateString(Maze maze, char chars) {
-		StringBuilder line[] = null;
-		StringBuilder x;
-		line = maze.createMaze();
-		line[this.posY].setCharAt(this.posX, chars);
-	}
+
 }

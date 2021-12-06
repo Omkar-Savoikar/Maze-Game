@@ -5,12 +5,14 @@ public class Enemy {
 	private Integer fPosY;
 	private Integer tPosX;
 	private Integer tPosY;
+	private String rep;
 	
 	public Enemy(Integer fPosX, Integer fPosY, Integer tPosX, Integer tPosY) {
 		this.fPosX = fPosX;
 		this.fPosY = fPosY;
 		this.tPosX = tPosX;
 		this.tPosY = tPosY;
+		this.rep = "<>";
 	}
 	
 	public Integer getfPosX() {
@@ -43,6 +45,10 @@ public class Enemy {
 
 	public void settPosY(Integer tPosY) {
 		this.tPosY = tPosY;
+	}
+
+	public String getRep() {
+		return rep;
 	}
 
 	public void move() {

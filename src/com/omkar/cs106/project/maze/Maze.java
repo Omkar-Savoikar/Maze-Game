@@ -1,90 +1,79 @@
 package com.omkar.cs106.project.maze;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Maze {
 	private Integer height;
 	private Integer length;
-	private String line0 =  " ________________S_______________";
-	private String line1 =  "|_  | _| |___   |     |  ___| __ |";
-	private String line2 =  "| |  _  __  |_|_ | |__| _|________|";
-	private String line3 =  "|   | _|__ | |  _ |_|  |__  | __| _ _|";
-	private String line4 =  "|_|_|_|   |__| |_ |__| _ | |_| __|  |_ |";
-	private String line5 =  "|  _| _|_|  |  | _ | _| |_| _ _ | |_ |_|";
-	private String line6 =  "|_   __|  |_ | | | _|_ | | _| _|  _| | | |";
-	private String line7 =  "| | |_ | | | _| |_| |  |_| _| _| | |_| _| | |";
-	private String line8 =  "| |_  | _|_|  |_| _| | _ | _ | |_| | |   |";
-	private String line9 =  "| |   |_ | _|__|_ |_| | _|_  __ | |_| | |";
-	private String line10 = "|   |__| |_ _|   | _|__|_ |   |  |___|";
-	private String line11 = "| |_  |_|_ | |_| | |   |___| |_|_|_|__|_ |";
-	private String line12 = "|_| _|__| |_| |  | |_| |_  | | | | | |_  _|";
-	private String line13 = "| |_ _| |_ _ | |_|  _| |_|  _   _|  |";
-	private String line14 = "|   |  | | |  _|__|_| |  | _|_ | | |_| _| |";
-	private String line15 = "| |__| __|_| |__  _|_|_| _| _| | |___| |";
-	private String line16 = "|_|_ | _ | |_ |  |_|_  _ |_| _| |_  | |";
-	private String line17 = "|    _ _| __|_|_|_| | |_| | |_|__ |__|_| _|";
-	private String line18 = "| | |_ |___ ____|__ _|__ _|___ _|";
-	private String line19 = "| | | | | _ |  |  | _ |_|_ |__ |  __| |";
-	private String line20 = "|_|_|__|__|__|__|__| ___|____|_|____|";
-	private String line21 = "____________________E________________";
+	//4 cases of a cell
+	//private Cell c1 = new Cell(true, true); both
+	//private Cell c2 = new Cell(true, false); only left
+	//private Cell c3 = new Cell(false, true); only down
+	//private Cell c4 = new Cell(false, false); empty
+	private Cell[][] cell = { //20x25
+			{new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, false), new Cell(false, false), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(false, false), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(false, true), new Cell(false, false), new Cell(true, false)},
+			{new Cell(true, false), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(false, false), new Cell(false, true), new Cell(false, true), new Cell(false, false), new Cell(false, false), new Cell(true, true), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(true, true), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, true), new Cell(true, false)},
+			{new Cell(true, false), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(true, true), new Cell(true, false), new Cell(false, false), new Cell(true, true), new Cell(false, true), new Cell(false, false), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(false, true), new Cell(true, false)},
+			{new Cell(true, true), new Cell(true, true), new Cell(true, true), new Cell(true, false), new Cell(false, false), new Cell(false, false), new Cell(true, true), new Cell(true, true), new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(true, true), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(false, true), new Cell(false, true), new Cell(true, false), new Cell(false, false), new Cell(true, true), new Cell(false, false), new Cell(true, false)},
+			{new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(true, true), new Cell(true, false), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(true, true), new Cell(true, false)},
+			{new Cell(true, true), new Cell(false, false), new Cell(false, true), new Cell(false, true), new Cell(true, false), new Cell(false, false), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(false, true), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(false, false), new Cell(false, true), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(true, false)},
+			{new Cell(true, false), new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(true, false), new Cell(false, false), new Cell(true, true), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(true, false), new Cell(true, false)},
+			{new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(true, true), new Cell(true, false), new Cell(false, false), new Cell(true, true), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(false, false), new Cell(false, false), new Cell(true, false)},
+			{new Cell(true, false), new Cell(true, false), new Cell(false, false), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(false, false), new Cell(true, true), new Cell(true, false), new Cell(true, false), new Cell(false, true), new Cell(true, true), new Cell(true, false), new Cell(false, false), new Cell(false, true), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(true, false), new Cell(true, false)},
+			{new Cell(true, false), new Cell(false, false), new Cell(true, true), new Cell(false, true), new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(false, true), new Cell(true, false), new Cell(false, false), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(true, false)},
+			{new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(false, false), new Cell(true, true), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(false, false), new Cell(false, false), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(true, false), new Cell(true, true), new Cell(true, true), new Cell(true, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(false, false), new Cell(true, false)},
+			{new Cell(true, true), new Cell(true, false), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(true, false), new Cell(false, false), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(false, false), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(false, false), new Cell(false, true), new Cell(true, false)},
+			{new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(false, true), new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(false, false), new Cell(false, true), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(false, false), new Cell(false, true), new Cell(false, false), new Cell(false, false), new Cell(false, false), new Cell(false, true), new Cell(true, false), new Cell(false, false), new Cell(true, false)},
+			{new Cell(true, false), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(false, false), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(true, false), new Cell(true, false), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(true, false)},
+			{new Cell(true, false), new Cell(true, true), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(false, true), new Cell(true, true), new Cell(true, false), new Cell(true, true), new Cell(false, true), new Cell(false, false), new Cell(false, false), new Cell(false, true), new Cell(true, true), new Cell(true, true), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(true, false), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(true, false), new Cell(true, false)},
+			{new Cell(true, true), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(true, true), new Cell(true, true), new Cell(false, false), new Cell(false, false), new Cell(false, true), new Cell(false, false), new Cell(true, true), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(false, false), new Cell(true, false), new Cell(true, false)},
+			{new Cell(true, false), new Cell(false, false), new Cell(false, true), new Cell(false, false), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(false, true), new Cell(true, true), new Cell(true, true), new Cell(true, true), new Cell(true, false), new Cell(true, false), new Cell(true, true), new Cell(true, false), new Cell(true, false), new Cell(true, true), new Cell(true, true), new Cell(false, true), new Cell(false, false), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(true, false), new Cell(false, true), new Cell(true, false)},
+			{new Cell(true, false), new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, false), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(false, false), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(false, false), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, false), new Cell(false, true), new Cell(true, false)},
+			{new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(true, true), new Cell(true, true), new Cell(false, false), new Cell(true, true), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(false, true), new Cell(false, true), new Cell(true, false), new Cell(true, false)},
+			{new Cell(true, true), new Cell(true, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, true), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, false)}
+			};
+	private String line0 = " _______________________________________________  S  ________________________________________________";
+	private String line1 = "|_______________________________________________  E  _______________________________________________|";
+	private String line[] = {line0, line1};
 	
-	private String line[] = {line0, line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11, line12, line13, line14, line15, line16, line17, line18, line19, line20, line21};
-	
-	/*
-	public Maze(Integer height, Integer weight) {
-		this.height = height;
-		this.weight = weight;
+	public Maze() {
+		this.height = 20;
+		this.length = 25;
+		this.cell[0][12].setPlayerPresent(true);
 	}
-	*/
 
 	public Integer getHeight() {
 		return height;
-	}
-
-	public Integer getWeight() {
-		return length;
 	}
 
 	public Integer getLength() {
 		return length;
 	}
 
-	public String[] getLine() {
-		return line;
-	}
-	
-	public StringBuilder[] createMaze() {
-		char[] chars;
-		Integer x = 0;
-		StringBuilder builder[] = null;
-		for(String i : line) {
-			chars = i.toCharArray();
-			builder[x] = new StringBuilder();
-			for(Character c : chars)
-				builder[x].append(c);
-			x += 1;
-		}
-		return builder;
-	}
-
 	public String displayStart() {
 		Scanner scan = new Scanner(System.in);
 		System.out.println(line0);
-		System.out.println("|               Welcome               |");
-		System.out.println("|               Maze Game             |");
-		System.out.println("|     Press any key to Start Game     |");
-		System.out.println(line20);
-		String input = scan.next();
+		System.out.println("|                                              Welcome                                              |");
+		System.out.println("|                                             Maze Game                                             |");
+		System.out.println("|                                       Press Y to Start Game                                       |");
+		System.out.println("|                                       Press N to Exit Game                                        |");
+		System.out.println(line1);
+		String input = scan.nextLine();
 		//scan.getchar();
+		scan.close();
 		return input;
 	}
 	
-	public void displayMaze() {
-		for(String i : line) {
-			System.out.println(i);
+	public void displayMaze(Player player) {
+		System.out.println();
+		System.out.println(line0);
+		for (int i = 0; i < getHeight(); i++) {
+			for (int j = 0; j <= getLength(); j++)
+				cell[i][j].printCell();
+			System.out.println();
 		}
+		System.out.println(line1);
+		System.out.println();
 	}
 	
 	public String displayEnd(Player player) {
@@ -102,8 +91,9 @@ public class Maze {
 			System.out.println("|        Press Y to start again       |");
 			System.out.println("|         Press N to end game         |");
 		}
-		System.out.println(line20);
+		System.out.println(line1);
 		String input = scan.next();
+		scan.close();
 		return input;
 	}
 }
