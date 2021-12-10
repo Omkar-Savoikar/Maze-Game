@@ -1,7 +1,7 @@
 package com.omkar.cs106.project.maze;
 
 public class Door {
-	private Integer posX;
+	private Integer posX; //position of door
 	private Integer posY;
 	private Character rep;
 	

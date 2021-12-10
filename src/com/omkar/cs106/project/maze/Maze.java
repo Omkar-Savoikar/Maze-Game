@@ -1,15 +1,8 @@
 package com.omkar.cs106.project.maze;
 
-import java.util.Scanner;
-
 public class Maze {
-	private Integer height;
-	private Integer length;
-	//4 cases of a cell
-	//private Cell c1 = new Cell(true, true); both
-	//private Cell c2 = new Cell(true, false); only left
-	//private Cell c3 = new Cell(false, true); only down
-	//private Cell c4 = new Cell(false, false); empty
+	private Integer height; //rows in maze
+	private Integer length; //columns in maze
 	private Cell[][] cell = { //20x25
 			{new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(true, false), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, false), new Cell(false, false), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(false, false), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(false, true), new Cell(false, false), new Cell(true, false)},
 			{new Cell(true, false), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(false, false), new Cell(false, true), new Cell(false, true), new Cell(false, false), new Cell(false, false), new Cell(true, true), new Cell(true, true), new Cell(false, false), new Cell(true, false), new Cell(true, true), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, true), new Cell(true, false)},
@@ -31,15 +24,17 @@ public class Maze {
 			{new Cell(true, false), new Cell(true, false), new Cell(true, true), new Cell(false, false), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, false), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(false, false), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(false, false), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, false), new Cell(false, true), new Cell(true, false)},
 			{new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(true, false), new Cell(false, true), new Cell(false, false), new Cell(true, true), new Cell(true, true), new Cell(false, false), new Cell(true, true), new Cell(false, true), new Cell(false, false), new Cell(true, false), new Cell(false, false), new Cell(false, true), new Cell(false, true), new Cell(true, false), new Cell(true, false)},
 			{new Cell(true, true), new Cell(true, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(true, false), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, true), new Cell(true, true), new Cell(false, true), new Cell(false, true), new Cell(false, true), new Cell(true, false)}
-			};
-	private String line0 = " _______________________________________________  S  ________________________________________________";
+			}; //all the cells in the maze
+	private String line0 = " _______________________________________________  S  ________________________________________________"; //top line and bottom line of maze
 	private String line1 = "|_______________________________________________  E  _______________________________________________|";
-	private String line[] = {line0, line1};
+	private Transporter transporter = new Transporter(9, 19, 19, 0);  // transporter doors - d1[x][y], d2[x][y]
 	
 	public Maze() {
 		this.height = 20;
 		this.length = 25;
-		this.cell[0][12].setPlayerPresent(true);
+		this.cell[0][12].setPlayerPresent(true); //setting player at start of maze [0, 12]
+		this.cell[transporter.getD1().getPosX()][transporter.getD1().getPosY()].setDoorPresent(true); //setting transporter door 1
+		this.cell[transporter.getD2().getPosX()][transporter.getD2().getPosY()].setDoorPresent(true); //setting transporter door 2
 	}
 
 	public Integer getHeight() {
@@ -49,51 +44,50 @@ public class Maze {
 	public Integer getLength() {
 		return length;
 	}
+	
+	public Cell getCell(Integer i, Integer j) {
+		return cell[i][j]; //returns cell at row i, column j
+	}
 
-	public String displayStart() {
-		Scanner scan = new Scanner(System.in);
+	public Transporter getTransporter() {
+		return transporter;
+	}
+
+	public void displayStart() { //Welcome screen at start of the game
 		System.out.println(line0);
 		System.out.println("|                                              Welcome                                              |");
 		System.out.println("|                                             Maze Game                                             |");
 		System.out.println("|                                       Press Y to Start Game                                       |");
 		System.out.println("|                                       Press N to Exit Game                                        |");
 		System.out.println(line1);
-		String input = scan.nextLine();
-		//scan.getchar();
-		scan.close();
-		return input;
 	}
 	
-	public void displayMaze(Player player) {
+	public void displayMaze(Player player) { //maze display
 		System.out.println();
 		System.out.println(line0);
 		for (int i = 0; i < getHeight(); i++) {
 			for (int j = 0; j <= getLength(); j++)
-				cell[i][j].printCell();
+				cell[i][j].printCell(); //using double foor loop to print all the cells
 			System.out.println();
 		}
 		System.out.println(line1);
 		System.out.println();
 	}
 	
-	public String displayEnd(Player player) {
-		Scanner scan = new Scanner(System.in);
+	public void displayEnd(Player player) { //Show proper message at the end of the game
 		System.out.println(line0);
-		if(player.getWin() == true) {
-			System.out.println("|           Congratulations           |");
-			System.out.println("|               You Won               |");
-			System.out.println("|        Press Y to start again       |");
-			System.out.println("|         Press N to end game         |");
+		if(player.getWin() == 1) {
+			System.out.println("|                                          Congratulations                                          |");
+			System.out.println("|                                              You Win                                              |");
+			System.out.println("|                                         It Is Party Time                                          |");
 		}
 		else {
-			System.out.println("|                Sorry                |");
-			System.out.println("|              You Loose              |");
-			System.out.println("|        Press Y to start again       |");
-			System.out.println("|         Press N to end game         |");
+			System.out.println("|                                               Sorry                                               |");
+			System.out.println("|                                             You Lost                                              |");
+			System.out.println("|                                       Better Luck Next Time                                       |");
 		}
+		System.out.println("|                                       Press Y to Start Game                                       |");
+		System.out.println("|                                       Press N to Exit Game                                        |");
 		System.out.println(line1);
-		String input = scan.next();
-		scan.close();
-		return input;
 	}
 }
