@@ -52,6 +52,17 @@ public class Maze {
 	public Transporter getTransporter() {
 		return transporter;
 	}
+	
+	public void displayInstruction() {
+		System.out.println("The player is represented by 'O'.");
+		System.out.println("The enemy is represented by '+' and is continuously moving along a fixed path.");
+		System.out.println("Transport doors are represented by 'X'. They transport the player from one door to another.");
+		System.out.println("The goal of player is to move to the end and avoid the enemies on the way there.");
+		System.out.println("The end is marked by E.");
+		System.out.println("If player touches the enemy, player looses the game.");
+		System.out.println("Move the player using WASD keys.");
+		System.out.println("Press N to exit the game at any moment.");
+	}
 
 	public void displayStart() { //Welcome screen at start of the game
 		System.out.println(line0);
@@ -67,7 +78,7 @@ public class Maze {
 		System.out.println(line0);
 		for (int i = 0; i < getHeight(); i++) {
 			for (int j = 0; j <= getLength(); j++)
-				cell[i][j].printCell(); //using double foor loop to print all the cells
+				cell[i][j].printCell(); //using double for loop to print all the cells
 			System.out.println();
 		}
 		System.out.println(line1);

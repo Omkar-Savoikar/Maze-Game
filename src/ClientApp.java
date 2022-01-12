@@ -17,6 +17,7 @@ public class ClientApp {
 		String gameInput = "N"; //take input as Y or N to check when to exit
 		String moveInput = null; // take input as W, A, S, D to move player		
 		do {
+			maze.displayInstruction();
 		 	maze.displayStart(); //display game start
 		 	gameInput = scan.next();
 		 	gameInput = gameInput.toUpperCase();
